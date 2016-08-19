@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TesteModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <Function Name="P_NOTA_FISCAL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pId" Type="int" Mode="InOut" />
+          <Parameter Name="pNumeroNotaFiscal" Type="int" Mode="In" />
+          <Parameter Name="pSerie" Type="int" Mode="In" />
+          <Parameter Name="pNomeCliente" Type="varchar" Mode="In" />
+          <Parameter Name="pEstadoDestino" Type="varchar" Mode="In" />
+          <Parameter Name="pEstadoOrigem" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="P_NOTA_FISCAL_ITEM" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pId" Type="int" Mode="InOut" />
+          <Parameter Name="pIdNotaFiscal" Type="int" Mode="In" />
+          <Parameter Name="pCfop" Type="varchar" Mode="In" />
+          <Parameter Name="pTipoIcms" Type="varchar" Mode="In" />
+          <Parameter Name="pBaseIcms" Type="decimal" Mode="In" />
+          <Parameter Name="pAliquotaIcms" Type="decimal" Mode="In" />
+          <Parameter Name="pValorIcms" Type="decimal" Mode="In" />
+          <Parameter Name="pNomeProduto" Type="varchar" Mode="In" />
+          <Parameter Name="pCodigoProduto" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="P_TOTAL_IMPOSTO_CFOP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="TesteModelStoreContainer">
+          </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TesteModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="NotaFiscal" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="P_NOTA_FISCAL">
+            <Parameter Name="pId" Mode="InOut" Type="Int32" />
+            <Parameter Name="pNumeroNotaFiscal" Mode="In" Type="Int32" />
+            <Parameter Name="pSerie" Mode="In" Type="Int32" />
+            <Parameter Name="pNomeCliente" Mode="In" Type="String" />
+            <Parameter Name="pEstadoDestino" Mode="In" Type="String" />
+            <Parameter Name="pEstadoOrigem" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="P_NOTA_FISCAL_ITEM">
+            <Parameter Name="pId" Mode="InOut" Type="Int32" />
+            <Parameter Name="pIdNotaFiscal" Mode="In" Type="Int32" />
+            <Parameter Name="pCfop" Mode="In" Type="String" />
+            <Parameter Name="pTipoIcms" Mode="In" Type="String" />
+            <Parameter Name="pBaseIcms" Mode="In" Type="Decimal" />
+            <Parameter Name="pAliquotaIcms" Mode="In" Type="Decimal" />
+            <Parameter Name="pValorIcms" Mode="In" Type="Decimal" />
+            <Parameter Name="pNomeProduto" Mode="In" Type="String" />
+            <Parameter Name="pCodigoProduto" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="P_TOTAL_IMPOSTO_CFOP" ReturnType="Collection(TesteModel.P_TOTAL_IMPOSTO_CFOP_Result)" />
+        </EntityContainer>
+        <ComplexType Name="P_TOTAL_IMPOSTO_CFOP_Result">
+          <Property Type="String" Name="Cfop" Nullable="true" MaxLength="5" />
+          <Property Type="Decimal" Name="Vlr_Total_Base_ICMS" Nullable="true" Precision="38" Scale="5" />
+          <Property Type="Decimal" Name="vlr_Total_ICMS" Nullable="true" Precision="38" Scale="5" />
+          <Property Type="Decimal" Name="vlr_Total_Base_IPI" Nullable="true" Precision="38" Scale="5" />
+          <Property Type="Decimal" Name="vlr_total_IPI" Nullable="true" Precision="38" Scale="5" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TesteModelStoreContainer" CdmEntityContainer="NotaFiscal">
+          <FunctionImportMapping FunctionImportName="P_NOTA_FISCAL" FunctionName="TesteModel.Store.P_NOTA_FISCAL" />
+          <FunctionImportMapping FunctionImportName="P_NOTA_FISCAL_ITEM" FunctionName="TesteModel.Store.P_NOTA_FISCAL_ITEM" />
+          <FunctionImportMapping FunctionImportName="P_TOTAL_IMPOSTO_CFOP" FunctionName="TesteModel.Store.P_TOTAL_IMPOSTO_CFOP">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TesteModel.P_TOTAL_IMPOSTO_CFOP_Result">
+                <ScalarProperty Name="Cfop" ColumnName="Cfop" />
+                <ScalarProperty Name="Vlr_Total_Base_ICMS" ColumnName="Vlr_Total_Base_ICMS" />
+                <ScalarProperty Name="vlr_Total_ICMS" ColumnName="vlr_Total_ICMS" />
+                <ScalarProperty Name="vlr_Total_Base_IPI" ColumnName="vlr_Total_Base_IPI" />
+                <ScalarProperty Name="vlr_total_IPI" ColumnName="vlr_total_IPI" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

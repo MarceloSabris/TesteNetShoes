@@ -1,0 +1,10 @@
+Pasta Exercicio 1: 
+   Encontra-se o código feito do exercício 1  em VS 2015, utilizando framework 4.0. 
+   Dentro da pasta sql, encontra-se scripts para criação dos novos objetos do banco de dados. 
+   Dentro da pasta misc,encontra o documento de especificação alterado com as solicitações e o resumo das atividades 
+Pasta Exercicio 2 : 
+   Encntra-se o projeto do exercício número 2 feito em VS2015 utilziando a framework 4.0
+
+                       
+
+  
